@@ -19,7 +19,7 @@ is from UCI's `machine learning repository <http://archive.ics.uci.edu/ml/datase
 What You'll Need
 ----------------
 
-In order to execute the code in this guide locally, you'll need to:
+In order to execute the code in this guide locally, you'll need to geez crist:
 
 .. plain-section::
 
