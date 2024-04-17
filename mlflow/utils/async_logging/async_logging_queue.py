@@ -233,12 +233,12 @@ class AsyncLoggingQueue:
                 daemon=True,
             )
             self._batch_logging_worker_threadpool = ThreadPoolExecutor(
-                max_workers=10,
+                max_workers=30,
                 thread_name_prefix="MLflowBatchLoggingWorkerPool",
             )
 
             self._batch_status_check_threadpool = ThreadPoolExecutor(
-                max_workers=10,
+                max_workers=30,
                 thread_name_prefix="MLflowAsyncLoggingStatusCheck",
             )
             self._batch_logging_thread.start()
