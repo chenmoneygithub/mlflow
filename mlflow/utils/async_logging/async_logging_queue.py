@@ -3,6 +3,7 @@ Defines an AsyncLoggingQueue that provides async fashion logging of metrics/tags
 queue based approach.
 """
 
+import os
 import atexit
 import logging
 import threading
@@ -14,6 +15,7 @@ from mlflow.entities.param import Param
 from mlflow.entities.run_tag import RunTag
 from mlflow.utils.async_logging.run_batch import RunBatch
 from mlflow.utils.async_logging.run_operations import RunOperations
+import time
 
 _logger = logging.getLogger(__name__)
 
@@ -38,6 +40,9 @@ class AsyncLoggingQueue:
 
         self._stop_data_logging_thread_event = threading.Event()
         self._is_activated = False
+
+        self._initial_time = time.time()
+        self._last_time = time.time()
 
     def _at_exit_callback(self) -> None:
         """Callback function to be executed when the program is exiting.
@@ -105,6 +110,18 @@ class AsyncLoggingQueue:
         except Empty:
             # Ignore empty queue exception
             return
+
+        current_time = time.time()
+        if os.environ.get("MLFLOW_VERBOSE") == "True":
+            print(
+                f"GEEZ I AM CALLING _log_run_data AT TIME: {current_time - self._initial_time} seconds."
+            )
+        if current_time - self._last_time > 30 and os.environ.get("MLFLOW_VERBOSE") == "True":
+            self._last_time = current_time
+            _logger.info(
+                f"Queue size at time elapse {current_time - self._initial_time}: "
+                f"{self._queue.qsize()}"
+            )
 
         def logging_func(run_batch):
             try:
