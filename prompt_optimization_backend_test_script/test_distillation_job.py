@@ -26,11 +26,13 @@ Prerequisites:
    mlflow.set_tracking_uri("http://127.0.0.1:5000")
    mlflow.set_experiment("my_experiment")
 
+
    @mlflow.trace
    def my_agent(question):
        prompt = load_prompt("prompts:/my_prompt/1")  # Links trace to prompt
        # ... call LLM with prompt ...
        return response
+
 
    # Run over your dataset - traces are captured automatically
    for item in dataset:

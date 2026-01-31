@@ -241,8 +241,6 @@ def create_distillation_dataset(
 
 @dataclass
 class DistillationDatasetResult:
-    """Result of creating a distillation dataset from traces."""
-
     dataset_id: str
     dataset_name: str
     num_traces: int
